@@ -15,16 +15,14 @@ module.exports = (app, db) => {
      res.redirect("/profile");
   });
 
-  app.route("/gitlogin").get(passport.authenticate('github'), (req, res) => {
-     res.redirect("/profile");
-  });
+  app.route("/gitlogin").get(passport.authenticate('github')); //Delegating to github
 
   let ensureAuthenticated = (req, res, next) => {
      if(req.isAuthenticated()) return next();
      else res.redirect("/");
   }
 
-  app.route("/auth/callback").get((req, res) => {
+  app.route("/auth/callback").get(passport.authenticate('github', {failureRedirect: "/"}), (req, res) => {
      res.redirect("/profile");
   })
 
