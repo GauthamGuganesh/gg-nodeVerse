@@ -24,11 +24,19 @@ module.exports = (app, db) => {
 
   //authenticate using passport once again in callback to trigger the function in GitHub strategy.
   app.route("/auth/callback").get(passport.authenticate('github', {failureRedirect: "/"}), (req, res) => {
-     res.redirect("/profile");
+     res.redirect("/git-profile");
   })
 
   app.route("/profile").get(ensureAuthenticated, (req, res) => {
      res.render(profilePath, {username: req.user.username});
+  });
+
+  app.route("/git-profile").get(ensureAuthenticated, (req, res) => {
+     console.log(req.user);
+     let gitprofile = {username: req.user.name, email: req.user.email,
+                       id: req.user.id, photo: req.user.photo,
+                       gitLogin: true};
+     res.render(profilePath, gitprofile);
   });
 
   app.route("/register").post((req, res, next) => {

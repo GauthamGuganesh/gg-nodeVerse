@@ -75,9 +75,9 @@ module.exports = (app, db) => {
           (err, user) => {
               if(err) return console.error(err);
 
-              console.log(user);
-              user.auth = 'github';
-              return done(null, user);
+              console.log(user.value);
+              user.value.auth = 'github';
+              return done(null, user.value);
           });
        }
 ));
