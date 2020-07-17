@@ -24,6 +24,10 @@ module.exports = (app, db) => {
      else res.redirect("/");
   }
 
+  app.route("/auth/callback").get((req, res) => {
+     res.redirect("/profile");
+  })
+
   app.route("/profile").get(ensureAuthenticated, (req, res) => {
      res.render(profilePath, {username: req.user.username});
   });
