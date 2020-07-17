@@ -27,14 +27,12 @@ module.exports = (app, db) => {
                   db.collection('users').findOne({_id: new ObjectID(id.id)}, (err, user) => {
                     if(err) return done(err);
                     else done(null, user);
-                    break;
                   });
 
       case 'github':
                   db.collection('socialusers').findOne({id: id.id}, (err, user) => {
                     if(err) return done(err);
                     else done(null, user);
-                    break;
                   }
       default:
             console.log("-Auth method not available yet-");
