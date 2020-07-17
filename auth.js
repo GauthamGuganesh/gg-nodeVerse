@@ -5,9 +5,9 @@ const ObjectID       = require("mongodb").ObjectID;
 const LocalStrategy  = require("passport-local").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
 
-const CLIENT_ID      = "";
-const CLIENT_SECRET  = "";
-const CALLBACK       = "";
+const CLIENT_ID      = "6883bf625e7acc11401c";
+const CLIENT_SECRET  = "969bb1b89a5980735298d219b1db915763fb36a5";
+const CALLBACK       = "https://heroku-advanced-node.herokuapp.com/auth/callback";
 
 module.exports = (app, db) => {
 
@@ -38,4 +38,16 @@ module.exports = (app, db) => {
       }
     });
   }));
+
+  passport.use(new GitHubStrategy({
+          clientID: CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          callbackURL: CALLBACK
+    },
+       (accessToken, refreshToken, profile, done) => {
+         console.log(profile);
+
+       }
+));
+
 }

@@ -15,6 +15,10 @@ module.exports = (app, db) => {
      res.redirect("/profile");
   });
 
+  app.route("/gitlogin").get(passport.authenticate('github'), (req, res) => {
+     res.redirect("/profile");
+  });
+
   let ensureAuthenticated = (req, res, next) => {
      if(req.isAuthenticated()) return next();
      else res.redirect("/");
