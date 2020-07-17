@@ -71,10 +71,10 @@ module.exports = (app, db) => {
             $set: { last_login: new Date() },
             $inc: { login_count: 1 }
           },
-          {upsert: true, returnOriginal: false},
+          {upsert: true, returnOriginal: false}, //returnOriginal use when deploying with nodeJS.
           (err, user) => {
               if(err) return console.error(err);
-              
+
               user.value.auth = 'github';
               return done(null, user.value);
           });

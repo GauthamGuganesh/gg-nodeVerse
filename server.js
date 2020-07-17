@@ -35,7 +35,7 @@ mongo.connect(DATABASE, {useNewUrlParser: true, useUnifiedTopology: true}, (err,
 
        auth(app, db);
        routes(app, db);
-
+//process.env.PORT required! for heroku.
        app.listen(process.env.PORT || 3000, () => {
          console.log("Listening on port 3000");
        });
