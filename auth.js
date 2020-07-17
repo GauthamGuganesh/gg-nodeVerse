@@ -74,8 +74,7 @@ module.exports = (app, db) => {
           {upsert: true, returnOriginal: false},
           (err, user) => {
               if(err) return console.error(err);
-
-              console.log(user.value);
+              
               user.value.auth = 'github';
               return done(null, user.value);
           });
