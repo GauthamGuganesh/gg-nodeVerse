@@ -17,7 +17,6 @@ module.exports = (app, db) => {
   });
 
   passport.deserializeUser((id, done) => {
-    console.log(id);
     db.collection('users').findOne({_id: new ObjectID(id.id)}, (err, user) => {
       if(err) return done(err);
       else done(null, user);
@@ -34,6 +33,7 @@ module.exports = (app, db) => {
       else
       {
         user.auth = 'local';
+        console.log(user);
         done(null, user);
       }
     });
