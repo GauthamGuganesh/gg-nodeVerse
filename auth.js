@@ -13,6 +13,7 @@ module.exports = (app, db) => {
 
   passport.serializeUser((user, done) => {
     let id = {id: user._id, auth: user.auth};
+    console.log(user);
     done(null, id);
   });
 
@@ -33,7 +34,6 @@ module.exports = (app, db) => {
       else
       {
         user.auth = 'local';
-        console.log(user);
         done(null, user);
       }
     });
@@ -42,7 +42,7 @@ module.exports = (app, db) => {
   passport.use(new GitHubStrategy({
           clientID: CLIENT_ID,
           clientSecret: CLIENT_SECRET,
-          callbackURL: ""
+          callbackURL: CALLBACK
     },
        (accessToken, refreshToken, profile, done) => {
          console.log(profile);
