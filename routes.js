@@ -22,6 +22,7 @@ module.exports = (app, db) => {
      else res.redirect("/");
   }
 
+  //authenticate using passport once again in callback to trigger the function in GitHub strategy.
   app.route("/auth/callback").get(passport.authenticate('github', {failureRedirect: "/"}), (req, res) => {
      res.redirect("/profile");
   })

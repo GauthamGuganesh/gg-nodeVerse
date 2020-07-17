@@ -11,17 +11,34 @@ const CALLBACK       = "https://heroku-advanced-node.herokuapp.com/auth/callback
 
 module.exports = (app, db) => {
 
-  passport.serializeUser((user, done) => {
-    let id = {id: user._id, auth: user.auth};
-    console.log(user);
+  passport.serializeUser((obj, done) => {
+    let id = undefined;
+
+    if(obj.auth === 'local') id = {id: obj._id, auth: obj.auth};
+    else if(obj.auth === 'github') id = {id: obj.id, auth: obj.auth};
+
     done(null, id);
   });
 
   passport.deserializeUser((id, done) => {
-    db.collection('users').findOne({_id: new ObjectID(id.id)}, (err, user) => {
-      if(err) return done(err);
-      else done(null, user);
-    })
+    switch(id.auth)
+    {
+      case 'local':
+                  db.collection('users').findOne({_id: new ObjectID(id.id)}, (err, user) => {
+                    if(err) return done(err);
+                    else done(null, user);
+                    break;
+                  });
+
+      case 'github':
+                  db.collection('socialusers').findOne({id: id.id}, (err, user) => {
+                    if(err) return done(err);
+                    else done(null, user);
+                    break;
+                  }
+      default:
+            console.log("-Auth method not available yet-");
+    }
   });
 
   //Strategy takes a function as argument
@@ -45,8 +62,25 @@ module.exports = (app, db) => {
           callbackURL: CALLBACK
     },
        (accessToken, refreshToken, profile, done) => {
-         console.log(profile);
 
+       db.collection('socialusers').findAndModify({id: profile.id}, {},
+          {$setOnInsert: {id: profile.id,
+                          name: profile.displayName,
+                          url: profile.profileURL,
+                          email: profile.emails[0].value,
+                          photo: profile.photos[0].value,
+                          provider: profile.provider}
+          },
+          {$set: { last_login: new Date() }},
+          {$inc: { login_count: 1 }},
+          {upsert: true, new: true},
+          (err, user) => {
+              if(err) return console.error(err);
+
+              console.log(user);
+              user.auth = 'github';
+              return done(null, user);
+          });
        }
 ));
 }
