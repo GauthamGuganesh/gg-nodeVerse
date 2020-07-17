@@ -2,8 +2,8 @@ const passport       = require("passport");
 const bcrypt         = require("bcrypt");
 
 const _dirname       = "/Users/gauthamguganesh/github/boilerplate-advancednode";
-const filePath       = _dirname + "/views/pug/index";
-const profilePath    = _dirname + "/views/pug/profile";
+const filePath       = "/views/pug/index";
+const profilePath    = "/views/pug/profile";
 
 module.exports = (app, db) => {
 
