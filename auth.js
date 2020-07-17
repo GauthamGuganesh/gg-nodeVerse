@@ -33,7 +33,7 @@ module.exports = (app, db) => {
                   db.collection('socialusers').findOne({id: id.id}, (err, user) => {
                     if(err) return done(err);
                     else done(null, user);
-                  }
+                  });
       default:
             console.log("-Auth method not available yet-");
     }
