@@ -61,14 +61,15 @@ module.exports = (app, db) => {
     },
        (accessToken, refreshToken, profile, done) => {
 
-       db.collection('socialusers').updateOne({id: profile.id},
-          { $set: { id: profile.id,
-                   name: profile.displayName,
-                   url: profile.profileURL,
-                   email: profile.emails[0].value,
-                   photo: profile.photos[0].value,
-                   provider: profile.provider,
-                   last_login: new Date() },
+       db.collection('socialusers').findOneAndUpdate({id: profile.id},
+          { $setOnInsert: { id: profile.id,
+                            name: profile.displayName,
+                            url: profile.profileURL,
+                            email: profile.emails[0].value,
+                            photo: profile.photos[0].value,
+                            provider: profile.provider,
+                            last_login: new Date() },
+            $set: { last_login: new Date() },
             $inc: { login_count: 1 }
           },
           {upsert: true, returnNewDocument: true},
