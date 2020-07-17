@@ -71,7 +71,7 @@ module.exports = (app, db) => {
             $set: { last_login: new Date() },
             $inc: { login_count: 1 }
           },
-          {upsert: true, returnNewDocument: true},
+          {upsert: true, new: true},
           (err, user) => {
               if(err) return console.error(err);
 
