@@ -42,7 +42,7 @@ module.exports = (app, db) => {
   passport.use(new GitHubStrategy({
           clientID: CLIENT_ID,
           clientSecret: CLIENT_SECRET,
-          callbackURL: CALLBACK
+          callbackURL: ""
     },
        (accessToken, refreshToken, profile, done) => {
          console.log(profile);
