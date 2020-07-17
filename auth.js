@@ -61,7 +61,7 @@ module.exports = (app, db) => {
     },
        (accessToken, refreshToken, profile, done) => {
 
-       db.collection('socialusers').findOneAndUpdate({id: profile.id}, {},
+       db.collection('socialusers').updateOne({id: profile.id},
           { $set: { id: profile.id,
                    name: profile.displayName,
                    url: profile.profileURL,
