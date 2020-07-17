@@ -36,7 +36,7 @@ mongo.connect(DATABASE, {useNewUrlParser: true, useUnifiedTopology: true}, (err,
        auth(app, db);
        routes(app, db);
 
-       app.listen(3000, () => {
+       app.listen(process.env.PORT || 3000, () => {
          console.log("Listening on port 3000");
        });
      }
