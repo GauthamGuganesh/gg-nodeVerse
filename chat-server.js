@@ -41,9 +41,9 @@ mongo.connect(DATABASE, {useNewUrlParser: true, useUnifiedTopology: true}, (err,
        http.listen(process.env.PORT || 3000);
 
        io.on('connection', (socket) => {
-         console.log(socket);
          var currentUsers = 0;
          ++currentUsers;
+         console.log("new user connected");
          console.log("user count :: " + currentUsers);
          io.emit('user count', currentUsers);
 
