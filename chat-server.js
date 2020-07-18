@@ -10,9 +10,11 @@ const app         = express();
 const http        = require('http').Server(app);
 const sessionStore= new session.MemoryStore();
 const io          = require("socket.io")(http);
+const cors        = require("cors");
 
 const DATABASE       = "mongodb+srv://gautham:brucewaynearkham@cluster0.baepu.mongodb.net/ggDB?retryWrites=true&w=majority";
 
+app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
