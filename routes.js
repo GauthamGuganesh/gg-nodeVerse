@@ -3,6 +3,7 @@ const bcrypt         = require("bcrypt");
 
 const _dirname       = "/Users/gauthamguganesh/github/boilerplate-advancednode";
 const filePath       = "pug/index";
+const chatPath       = "pug/chat";
 const profilePath    = "pug/profile";
 
 module.exports = (app, db) => {
@@ -59,6 +60,11 @@ module.exports = (app, db) => {
    , (req, res) => {
        res.redirect("/profile");
    });
+
+   app.route('/chat')
+      .get(ensureAuthenticated, (req, res) => {
+         res.render(process.cwd() + '/views/pug/chat');
+  });
 
   app.route("/logout").get((req, res) => {
      req.logout(); //Logging out
