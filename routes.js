@@ -62,8 +62,8 @@ module.exports = (app, db) => {
    });
 
    app.route('/chat')
-      .get(ensureAuthenticated, (req, res) => {
-         res.render(process.cwd() + '/views/pug/chat');
+      .get((req, res) => {
+         res.render(chatPath);
   });
 
   app.route("/logout").get((req, res) => {
