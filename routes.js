@@ -13,7 +13,7 @@ module.exports = (app, db) => {
   });
 
   app.route("/login").post(passport.authenticate('local', {failureRedirect: "/"}), (req, res) => {
-     res.redirect("/profile");
+     res.redirect("/chat");
   });
 
   app.route("/gitlogin").get(passport.authenticate('github')); //Delegating to github
@@ -25,7 +25,7 @@ module.exports = (app, db) => {
 
   //authenticate using passport once again in callback to trigger the function in GitHub strategy.
   app.route("/auth/callback").get(passport.authenticate('github', {failureRedirect: "/"}), (req, res) => {
-     res.redirect("/git-profile");
+     res.redirect("/chat");
   })
 
   app.route("/profile").get(ensureAuthenticated, (req, res) => {
@@ -61,9 +61,9 @@ module.exports = (app, db) => {
        res.redirect("/profile");
    });
 
-   app.route('/chat')
-      .get((req, res) => {
-         res.render(chatPath);
+   app.route('/chat').get(ensureAuthenticated, (req, res) => {
+       console.log("Session obj : " + req.session);
+       res.render(chatPath, {user: req.user});
   });
 
   app.route("/logout").get((req, res) => {

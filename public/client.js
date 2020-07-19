@@ -16,6 +16,30 @@ var sendRequest = () => {
     req.send();
 }
 
-sendRequest();
+//sendRequest();
 
-//var socket = io();
+$('document').ready(() => {
+  /*global io*/
+  var socket = io(); //Since connecting from inside the same domain. Not from outside.
+
+  $('form').submit(() => {
+    var messageToSend = $('m').val();
+    socket.emit('chat message', messageToSend);
+    $('m').val('');
+    return false; //To prevent form from refreshing
+  });
+
+  socket.on('user', (data) => {
+    $('num-users').text(data.currentUsers + ' users are online');
+    var message = data.name;
+    if(data.connected) message += ' has joined the chat';
+    else message += ' has left the chat';
+
+    $('messages').append($('<li>').html('<b>' + message + '</b>'));
+  });
+
+  socket.on('chat message', (data) => {
+    $('#messages').append($('<li>').text(data.name+': '+data.message));
+  });
+
+});
