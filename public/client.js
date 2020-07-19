@@ -24,19 +24,21 @@ $('document').ready(() => {
   var socket = io(); //Since connecting from inside the same domain. Not from outside.
   console.log("socket");
   $('form').submit(() => {
-    var messageToSend = $('m').val();
+    var messageToSend = $('#m').val();
     socket.emit('chat message', messageToSend);
-    $('m').val('');
+    $('#m').val('');
     return false; //To prevent form from refreshing
   });
 
   socket.on('user', (data) => {
-    $('num-users').text(data.currentUsers + ' users are online');
+    $('#num-users').text(data.currentUsers+' users online');
     var message = data.name;
-    if(data.connected) message += ' has joined the chat';
-    else message += ' has left the chat';
-
-    $('messages').append($('<li>').html('<b>' + message + '</b>'));
+    if(data.connected) {
+      message += ' has joined the chat.';
+    } else {
+      message += ' has left the chat.';
+    }
+    $('#messages').append($('<li>').html('<b>'+ message +'</b>'));
   });
 
   socket.on('chat message', (data) => {

@@ -41,7 +41,7 @@ module.exports = (app, db) => {
 
   //Strategy takes a function as argument
   passport.use(new LocalStrategy((username, password, done) => {
-    db.collection('users').findOne({username: username}, (err, user) => {
+    db.collection('users').findOne({name: username}, (err, user) => {
       if(err) return done(err);
       else if(!user) return done(null, false);
       //comparing textual password and hash from the DB. (inside user.password)

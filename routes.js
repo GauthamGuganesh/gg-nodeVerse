@@ -41,14 +41,14 @@ module.exports = (app, db) => {
   });
 
   app.route("/register").post((req, res, next) => {
-     db.collection('users').findOne({username: req.body.username}, (err, user) => {
+     db.collection('users').findOne({name: req.body.username}, (err, user) => {
        if(err) return console.error(err);
        else if(user) res.redirect("/");
        else
        {
          let hash = bcrypt.hashSync(req.body.password, 12);
          db.collection('users').insertOne({
-             username: req.body.username,
+             name: req.body.username,
              password: hash
            }, (err, user) => {
                if(err) return console.error(err);
