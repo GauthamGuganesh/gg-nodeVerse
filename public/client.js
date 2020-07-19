@@ -20,8 +20,9 @@ var sendRequest = () => {
 
 $('document').ready(() => {
   /*global io*/
+  console.log("document is ready");
   var socket = io(); //Since connecting from inside the same domain. Not from outside.
-
+  console.log("socket");
   $('form').submit(() => {
     var messageToSend = $('m').val();
     socket.emit('chat message', messageToSend);
